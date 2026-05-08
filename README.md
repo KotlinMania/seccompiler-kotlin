@@ -368,7 +368,7 @@ It can be configured via: `/proc/sys/net/core/bpf_jit_enable`.
 
 ```kotlin
 dependencies {
-    implementation("io.github.kotlinmania:seccompiler-kotlin:0.1.0-SNAPSHOT")
+    implementation("io.github.kotlinmania:seccompiler-kotlin:0.1.0")
 }
 ```
 
