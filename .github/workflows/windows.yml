@@ -27,3 +27,14 @@ jobs:
 
       - name: Build and test Windows target
         run: ./gradlew mingwX64Test --no-configuration-cache
+
+      - name: Upload test reports (Windows)
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports-windows
+          path: |
+            build/reports/tests/
+            build/test-results/
+          retention-days: 7
+          if-no-files-found: warn

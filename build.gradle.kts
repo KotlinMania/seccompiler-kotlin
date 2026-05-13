@@ -1,4 +1,5 @@
 import org.gradle.api.tasks.PathSensitivity
+import org.gradle.api.tasks.ClasspathNormalizer
 import org.gradle.api.tasks.testing.AbstractTestTask
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
@@ -49,81 +50,47 @@ kotlin {
     val xcf = XCFramework("Seccompiler")
 
     macosArm64 {
-        binaries.framework {
-            baseName = "Seccompiler"
-            xcf.add(this)
-        }
+        binaries.framework { baseName = "Seccompiler"; xcf.add(this) }
     }
-    // Apple desktop
+    iosArm64 {
+        binaries.framework { baseName = "Seccompiler"; xcf.add(this) }
+    }
+    iosSimulatorArm64 {
+        binaries.framework { baseName = "Seccompiler"; xcf.add(this) }
+    }
+    iosX64 {
+        binaries.framework { baseName = "Seccompiler"; xcf.add(this) }
+    }
+
+    tvosArm64 {
+        binaries.framework { baseName = "Seccompiler"; xcf.add(this) }
+    }
+    tvosSimulatorArm64 {
+        binaries.framework { baseName = "Seccompiler"; xcf.add(this) }
+    }
+
+    watchosArm32 {
+        binaries.framework { baseName = "Seccompiler"; xcf.add(this) }
+    }
+    watchosArm64 {
+        binaries.framework { baseName = "Seccompiler"; xcf.add(this) }
+    }
+    watchosDeviceArm64 {
+        binaries.framework { baseName = "Seccompiler"; xcf.add(this) }
+    }
+    watchosSimulatorArm64 {
+        binaries.framework { baseName = "Seccompiler"; xcf.add(this) }
+    }
+
     linuxX64()
     linuxArm64()
     mingwX64()
 
-    // Android native (NDK targets — separate from the Android JVM library below)
     androidNativeArm32()
     androidNativeArm64()
     androidNativeX86()
     androidNativeX64()
 
-    // iOS
-    iosArm64 {
-        binaries.framework {
-            baseName = "Seccompiler"
-            xcf.add(this)
-        }
-    }
-    iosSimulatorArm64 {
-        binaries.framework {
-            baseName = "Seccompiler"
-            xcf.add(this)
-        }
-    }
-    iosX64 {
-        binaries.framework {
-            baseName = "Seccompiler"
-            xcf.add(this)
-        }
-    }
-
-    // tvOS
-    tvosArm64 {
-        binaries.framework {
-            baseName = "Seccompiler"
-            xcf.add(this)
-        }
-    }
-    tvosSimulatorArm64 {
-        binaries.framework {
-            baseName = "Seccompiler"
-            xcf.add(this)
-        }
-    }
-
-    // watchOS
-    watchosArm32 {
-        binaries.framework {
-            baseName = "Seccompiler"
-            xcf.add(this)
-        }
-    }
-    watchosArm64 {
-        binaries.framework {
-            baseName = "Seccompiler"
-            xcf.add(this)
-        }
-    }
-    watchosDeviceArm64 {
-        binaries.framework {
-            baseName = "Seccompiler"
-            xcf.add(this)
-        }
-    }
-    watchosSimulatorArm64 {
-        binaries.framework {
-            baseName = "Seccompiler"
-            xcf.add(this)
-        }
-    }
     js {
         browser()
         nodejs()
@@ -163,7 +130,6 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.4.0")
             }
         }
-
         val commonTest by getting { dependencies { implementation(kotlin("test")) } }
     }
     jvmToolchain(21)
@@ -282,7 +248,7 @@ mavenPublishing {
 // ---------------------------------------------------------------------------
 // CodeQL Java/Kotlin extraction task
 //
-// .github/workflows/codeql.yml invokes ./gradlew codeqlCompileJvm to feed
+// .github/workflows/codeql.yml invokes `./gradlew codeqlCompileJvm` to feed
 // kotlinc-compiled commonMain through the CodeQL Java agent.
 val codeqlKotlinc: Configuration by configurations.creating {
     description = "Kotlin compiler (CodeQL extraction target only — not published)"
@@ -349,17 +315,23 @@ val codeqlCompileJvm = tasks.register<JavaExec>("codeqlCompileJvm") {
             "-language-version", "2.3",
             "-api-version", "2.3",
             "-Xexpect-actual-classes",
-            "-opt-in","kotlin.time.ExperimentalTime",
-            "-opt-in","kotlin.concurrent.atomics.ExperimentalAtomicApi",
+            "-opt-in", "kotlin.time.ExperimentalTime",
+            "-opt-in", "kotlin.concurrent.atomics.ExperimentalAtomicApi",
         ) + sourceFiles.map { it.absolutePath }
     }
 }
 
+tasks.register<Exec>("setupAndroidSdk") {
+    group = "setup"
+    description = "Downloads and configures the project-local Android SDK."
+    commandLine("./setup-android-sdk.sh")
+}
 
 tasks.register("test") {
     group = "verification"
     description =
-        "Runs a portable test suite (macOS + JS + WasmJS). Android and non-host native targets are intentionally excluded."
+        "Runs the host-portable test suite (macOS + JS + WasmJS + Android unit). " +
+        "Non-host native targets (mingwX64, linuxX64) only run on their own host."
 
     val defaultTestTasks = listOf(
         "macosArm64Test",
