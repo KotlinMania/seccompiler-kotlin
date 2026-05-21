@@ -1,4 +1,4 @@
-// port-lint: source src/backend/bpf.rs
+// port-lint: source backend/bpf.rs
 // Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0 OR BSD-3-Clause
 
@@ -24,16 +24,9 @@ public const val CONDITION_MAX_LEN: UInt = 6u
 // The maximum seccomp-BPF program length allowed by the linux kernel.
 public const val BPF_MAX_LEN: Int = 4096
 
-// `struct seccomp_data` offsets and sizes of fields in bytes:
-//
-// ```c
-// struct seccomp_data {
-//     int nr;
-//     __u32 arch;
-//     __u64 instruction_pointer;
-//     __u64 args[6];
-// };
-// ```
+// Seccomp data structure offsets and sizes of fields in bytes.
+// The kernel supplies fields in this order: syscall number, architecture id,
+// instruction pointer, then six syscall arguments.
 public const val SECCOMP_DATA_NR_OFFSET: UInt = 0u
 private const val SECCOMP_DATA_ARCH_OFFSET: UInt = 4u
 public const val SECCOMP_DATA_ARGS_OFFSET: UInt = 16u
@@ -70,7 +63,7 @@ internal fun buildArchValidationSequence(targetArch: TargetArch): MutableList<So
 }
 
 // BPF Instruction classes.
-// See /usr/include/linux/bpf_common.h .
+// See the Linux BPF common header.
 // Load operation.
 public const val BPF_LD: UInt = 0x00u
 
@@ -84,19 +77,19 @@ public const val BPF_JMP: UInt = 0x05u
 public const val BPF_RET: UInt = 0x06u
 
 // BPF ld/ldx fields.
-// See /usr/include/linux/bpf_common.h .
+// See the Linux BPF common header.
 // Operand size is a word.
 public const val BPF_W: UInt = 0x00u
 
-// Load from data area (where `seccomp_data` is).
+// Load from the seccomp data area.
 public const val BPF_ABS: UInt = 0x20u
 
 // BPF alu fields.
-// See /usr/include/linux/bpf_common.h .
+// See the Linux BPF common header.
 public const val BPF_AND: UInt = 0x50u
 
 // BPF jmp fields.
-// See /usr/include/linux/bpf_common.h .
+// See the Linux BPF common header.
 // Unconditional jump.
 public const val BPF_JA: UInt = 0x00u
 
@@ -108,7 +101,7 @@ public const val BPF_JGE: UInt = 0x30u
 // Test against the value in the K register.
 public const val BPF_K: UInt = 0x00u
 
-// Architecture identifier for x86_64 LE.
+// Architecture identifier for little-endian x86-64.
 // See /usr/include/linux/audit.h .
 // Defined as:
 // `#define AUDIT_ARCH_X86_64	(EM_X86_64|__AUDIT_ARCH_64BIT|__AUDIT_ARCH_LE)`
