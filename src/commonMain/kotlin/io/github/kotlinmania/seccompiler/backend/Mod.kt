@@ -1,4 +1,4 @@
-// port-lint: source src/backend/mod.rs
+// port-lint: source backend/mod.rs
 // Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0 OR BSD-3-Clause
 
@@ -18,15 +18,22 @@ private const val SECCOMP_RET_LOG: UInt = 0x7ffc0000u
 private const val SECCOMP_RET_ALLOW: UInt = 0x7fff0000u
 private const val SECCOMP_RET_DATA: UInt = 0x0000ffffu
 
+/** Backend Result type. */
+public typealias Result<T> = kotlin.Result<T>
+
 /** Backend-related errors. */
 public sealed class Error(message: String) : RuntimeException(message) {
+    override fun toString(): String = message ?: ""
+
     /** Attempting to associate an empty list of conditions to a rule. */
     public object EmptyRule : Error("The condition vector of a rule cannot be empty.")
 
     /** Filter exceeds the maximum number of instructions that a BPF program can have. */
     public data class FilterTooLarge(val len: Int) : Error(
         "The seccomp filter contains too many BPF instructions: $len. Max length is $BPF_MAX_LEN.",
-    )
+    ) {
+        override fun toString(): String = message ?: ""
+    }
 
     /** Filter and default actions are equal. */
     public object IdenticalActions : Error("`matchAction` and `mismatchAction` are equal.")
@@ -37,18 +44,20 @@ public sealed class Error(message: String) : RuntimeException(message) {
     )
 
     /** Invalid [TargetArch]. */
-    public data class InvalidTargetArch(val arch: String) : Error("Invalid target arch: $arch.")
+    public data class InvalidTargetArch(val arch: String) : Error("Invalid target arch: $arch.") {
+        override fun toString(): String = message ?: ""
+    }
 }
 
 /** Supported target architectures. */
 public enum class TargetArch {
-    /** x86_64 arch */
+    /** x86-64 architecture. */
     X86_64,
 
-    /** aarch64 arch */
+    /** AArch64 architecture. */
     AARCH64,
 
-    /** riscv64 arch */
+    /** RISC-V 64 architecture. */
     RISCV64,
     ;
 

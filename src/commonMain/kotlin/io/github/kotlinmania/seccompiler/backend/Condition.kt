@@ -1,4 +1,4 @@
-// port-lint: source src/backend/condition.rs
+// port-lint: source backend/condition.rs
 // Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0 OR BSD-3-Clause
 
@@ -57,7 +57,7 @@ public data class SeccompCondition internal constructor(
      * Computes the offsets of the syscall argument data passed to the BPF program.
      *
      * Returns the offsets of the most significant and least significant halves of the argument
-     * specified by [argIndex] relative to the `struct seccomp_data` passed to the BPF program by
+     * specified by [argIndex] relative to the seccomp data structure passed to the BPF program by
      * the kernel.
      */
     internal fun getDataOffsets(): Pair<UInt, UInt> {

@@ -1,4 +1,4 @@
-// port-lint: source src/backend/mod.rs
+// port-lint: source backend/mod.rs
 // Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0 OR BSD-3-Clause
 
@@ -9,6 +9,21 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 internal class ModTest {
+    @Test
+    fun errorDisplay() {
+        assertEquals("The condition vector of a rule cannot be empty.", Error.EmptyRule.toString())
+        assertEquals(
+            "The seccomp filter contains too many BPF instructions: 4097. Max length is $BPF_MAX_LEN.",
+            Error.FilterTooLarge(4097).toString(),
+        )
+        assertEquals("`matchAction` and `mismatchAction` are equal.", Error.IdenticalActions.toString())
+        assertEquals(
+            "The seccomp rule contains an invalid argument index. Maximum index value: $ARG_NUMBER_MAX",
+            Error.InvalidArgumentNumber.toString(),
+        )
+        assertEquals("Invalid target arch: sparc.", Error.InvalidTargetArch("sparc").toString())
+    }
+
     @Test
     fun testTargetArch() {
         assertTrue(TargetArch.tryFrom("invalid").isFailure)
