@@ -199,10 +199,18 @@ kotlin {
         binaries.framework { baseName = "Seccompiler"; xcf.add(this) }
     }
     iosSimulatorArm64 {
-        binaries.framework { baseName = "Seccompiler"; xcf.add(this) }
+        binaries.framework {
+            baseName = "Seccompiler"
+            isStatic = true
+            xcf.add(this)
+        }
     }
     iosX64 {
-        binaries.framework { baseName = "Seccompiler"; xcf.add(this) }
+        binaries.framework {
+            baseName = "Seccompiler"
+            isStatic = true
+            xcf.add(this)
+        }
     }
 
     tvosArm64 {
