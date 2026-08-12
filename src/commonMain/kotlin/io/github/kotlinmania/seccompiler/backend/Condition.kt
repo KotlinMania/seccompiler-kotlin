@@ -87,13 +87,15 @@ public data class SeccompCondition internal constructor(
         val (msb, lsb) = splitValue()
         val (msbOffset, lsbOffset) = getDataOffsets()
 
-        val bpf: MutableList<SockFilter> = when (argLen) {
-            SeccompCmpArgLen.DWORD -> mutableListOf()
-            SeccompCmpArgLen.QWORD -> mutableListOf(
-                bpfStmt(BPF_LD or BPF_W or BPF_ABS, msbOffset),
-                bpfJump(BPF_JMP or BPF_JEQ or BPF_K, msb, 0u, offset + 2u),
-            )
-        }
+        val bpf: MutableList<SockFilter> =
+            when (argLen) {
+                SeccompCmpArgLen.DWORD -> mutableListOf()
+                SeccompCmpArgLen.QWORD ->
+                    mutableListOf(
+                        bpfStmt(BPF_LD or BPF_W or BPF_ABS, msbOffset),
+                        bpfJump(BPF_JMP or BPF_JEQ or BPF_K, msb, 0u, offset + 2u),
+                    )
+            }
 
         bpf.addAll(
             listOf(
@@ -113,13 +115,15 @@ public data class SeccompCondition internal constructor(
         val (msb, lsb) = splitValue()
         val (msbOffset, lsbOffset) = getDataOffsets()
 
-        val bpf: MutableList<SockFilter> = when (argLen) {
-            SeccompCmpArgLen.DWORD -> mutableListOf()
-            SeccompCmpArgLen.QWORD -> mutableListOf(
-                bpfStmt(BPF_LD or BPF_W or BPF_ABS, msbOffset),
-                bpfJump(BPF_JMP or BPF_JEQ or BPF_K, msb, 0u, 2u),
-            )
-        }
+        val bpf: MutableList<SockFilter> =
+            when (argLen) {
+                SeccompCmpArgLen.DWORD -> mutableListOf()
+                SeccompCmpArgLen.QWORD ->
+                    mutableListOf(
+                        bpfStmt(BPF_LD or BPF_W or BPF_ABS, msbOffset),
+                        bpfJump(BPF_JMP or BPF_JEQ or BPF_K, msb, 0u, 2u),
+                    )
+            }
 
         bpf.addAll(
             listOf(
@@ -139,14 +143,16 @@ public data class SeccompCondition internal constructor(
         val (msb, lsb) = splitValue()
         val (msbOffset, lsbOffset) = getDataOffsets()
 
-        val bpf: MutableList<SockFilter> = when (argLen) {
-            SeccompCmpArgLen.DWORD -> mutableListOf()
-            SeccompCmpArgLen.QWORD -> mutableListOf(
-                bpfStmt(BPF_LD or BPF_W or BPF_ABS, msbOffset),
-                bpfJump(BPF_JMP or BPF_JGT or BPF_K, msb, 3u, 0u),
-                bpfJump(BPF_JMP or BPF_JEQ or BPF_K, msb, 0u, offset + 2u),
-            )
-        }
+        val bpf: MutableList<SockFilter> =
+            when (argLen) {
+                SeccompCmpArgLen.DWORD -> mutableListOf()
+                SeccompCmpArgLen.QWORD ->
+                    mutableListOf(
+                        bpfStmt(BPF_LD or BPF_W or BPF_ABS, msbOffset),
+                        bpfJump(BPF_JMP or BPF_JGT or BPF_K, msb, 3u, 0u),
+                        bpfJump(BPF_JMP or BPF_JEQ or BPF_K, msb, 0u, offset + 2u),
+                    )
+            }
 
         bpf.addAll(
             listOf(
@@ -166,14 +172,16 @@ public data class SeccompCondition internal constructor(
         val (msb, lsb) = splitValue()
         val (msbOffset, lsbOffset) = getDataOffsets()
 
-        val bpf: MutableList<SockFilter> = when (argLen) {
-            SeccompCmpArgLen.DWORD -> mutableListOf()
-            SeccompCmpArgLen.QWORD -> mutableListOf(
-                bpfStmt(BPF_LD or BPF_W or BPF_ABS, msbOffset),
-                bpfJump(BPF_JMP or BPF_JGT or BPF_K, msb, 3u, 0u),
-                bpfJump(BPF_JMP or BPF_JEQ or BPF_K, msb, 0u, offset + 2u),
-            )
-        }
+        val bpf: MutableList<SockFilter> =
+            when (argLen) {
+                SeccompCmpArgLen.DWORD -> mutableListOf()
+                SeccompCmpArgLen.QWORD ->
+                    mutableListOf(
+                        bpfStmt(BPF_LD or BPF_W or BPF_ABS, msbOffset),
+                        bpfJump(BPF_JMP or BPF_JGT or BPF_K, msb, 3u, 0u),
+                        bpfJump(BPF_JMP or BPF_JEQ or BPF_K, msb, 0u, offset + 2u),
+                    )
+            }
 
         bpf.addAll(
             listOf(
@@ -193,14 +201,16 @@ public data class SeccompCondition internal constructor(
         val (msb, lsb) = splitValue()
         val (msbOffset, lsbOffset) = getDataOffsets()
 
-        val bpf: MutableList<SockFilter> = when (argLen) {
-            SeccompCmpArgLen.DWORD -> mutableListOf()
-            SeccompCmpArgLen.QWORD -> mutableListOf(
-                bpfStmt(BPF_LD or BPF_W or BPF_ABS, msbOffset),
-                bpfJump(BPF_JMP or BPF_JGT or BPF_K, msb, offset + 3u, 0u),
-                bpfJump(BPF_JMP or BPF_JEQ or BPF_K, msb, 0u, 2u),
-            )
-        }
+        val bpf: MutableList<SockFilter> =
+            when (argLen) {
+                SeccompCmpArgLen.DWORD -> mutableListOf()
+                SeccompCmpArgLen.QWORD ->
+                    mutableListOf(
+                        bpfStmt(BPF_LD or BPF_W or BPF_ABS, msbOffset),
+                        bpfJump(BPF_JMP or BPF_JGT or BPF_K, msb, offset + 3u, 0u),
+                        bpfJump(BPF_JMP or BPF_JEQ or BPF_K, msb, 0u, 2u),
+                    )
+            }
 
         bpf.addAll(
             listOf(
@@ -220,14 +230,16 @@ public data class SeccompCondition internal constructor(
         val (msb, lsb) = splitValue()
         val (msbOffset, lsbOffset) = getDataOffsets()
 
-        val bpf: MutableList<SockFilter> = when (argLen) {
-            SeccompCmpArgLen.DWORD -> mutableListOf()
-            SeccompCmpArgLen.QWORD -> mutableListOf(
-                bpfStmt(BPF_LD or BPF_W or BPF_ABS, msbOffset),
-                bpfJump(BPF_JMP or BPF_JGT or BPF_K, msb, offset + 3u, 0u),
-                bpfJump(BPF_JMP or BPF_JEQ or BPF_K, msb, 0u, 2u),
-            )
-        }
+        val bpf: MutableList<SockFilter> =
+            when (argLen) {
+                SeccompCmpArgLen.DWORD -> mutableListOf()
+                SeccompCmpArgLen.QWORD ->
+                    mutableListOf(
+                        bpfStmt(BPF_LD or BPF_W or BPF_ABS, msbOffset),
+                        bpfJump(BPF_JMP or BPF_JGT or BPF_K, msb, offset + 3u, 0u),
+                        bpfJump(BPF_JMP or BPF_JEQ or BPF_K, msb, 0u, 2u),
+                    )
+            }
 
         bpf.addAll(
             listOf(
@@ -256,14 +268,16 @@ public data class SeccompCondition internal constructor(
         val maskMsb = (mask shr 32).toUInt()
         val maskLsb = mask.toUInt()
 
-        val bpf: MutableList<SockFilter> = when (argLen) {
-            SeccompCmpArgLen.DWORD -> mutableListOf()
-            SeccompCmpArgLen.QWORD -> mutableListOf(
-                bpfStmt(BPF_LD or BPF_W or BPF_ABS, msbOffset),
-                bpfStmt(BPF_ALU or BPF_AND or BPF_K, maskMsb),
-                bpfJump(BPF_JMP or BPF_JEQ or BPF_K, msb, 0u, offset + 3u),
-            )
-        }
+        val bpf: MutableList<SockFilter> =
+            when (argLen) {
+                SeccompCmpArgLen.DWORD -> mutableListOf()
+                SeccompCmpArgLen.QWORD ->
+                    mutableListOf(
+                        bpfStmt(BPF_LD or BPF_W or BPF_ABS, msbOffset),
+                        bpfStmt(BPF_ALU or BPF_AND or BPF_K, maskMsb),
+                        bpfJump(BPF_JMP or BPF_JEQ or BPF_K, msb, 0u, offset + 3u),
+                    )
+            }
 
         bpf.addAll(
             listOf(
@@ -290,15 +304,16 @@ public data class SeccompCondition internal constructor(
      * separately since the BPF operand and accumulator are 4 bytes whereas an argument value is 8.
      */
     internal fun intoBpf(offset: UInt): MutableList<SockFilter> {
-        val result = when (val op = operator) {
-            is SeccompCmpOp.Eq -> intoEqBpf(offset)
-            is SeccompCmpOp.Ge -> intoGeBpf(offset)
-            is SeccompCmpOp.Gt -> intoGtBpf(offset)
-            is SeccompCmpOp.Le -> intoLeBpf(offset)
-            is SeccompCmpOp.Lt -> intoLtBpf(offset)
-            is SeccompCmpOp.MaskedEq -> intoMaskedEqBpf(offset, op.mask)
-            is SeccompCmpOp.Ne -> intoNeBpf(offset)
-        }
+        val result =
+            when (val op = operator) {
+                is SeccompCmpOp.Eq -> intoEqBpf(offset)
+                is SeccompCmpOp.Ge -> intoGeBpf(offset)
+                is SeccompCmpOp.Gt -> intoGtBpf(offset)
+                is SeccompCmpOp.Le -> intoLeBpf(offset)
+                is SeccompCmpOp.Lt -> intoLtBpf(offset)
+                is SeccompCmpOp.MaskedEq -> intoMaskedEqBpf(offset, op.mask)
+                is SeccompCmpOp.Ne -> intoNeBpf(offset)
+            }
 
         // Verifies that the `CONDITION_MAX_LEN` constant was properly updated.
         check(result.size.toUInt() <= CONDITION_MAX_LEN)

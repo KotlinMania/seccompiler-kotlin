@@ -22,16 +22,20 @@ private const val SECCOMP_RET_DATA: UInt = 0x0000ffffu
 public typealias Result<T> = kotlin.Result<T>
 
 /** Backend-related errors. */
-public sealed class Error(message: String) : RuntimeException(message) {
+public sealed class Error(
+    message: String,
+) : RuntimeException(message) {
     override fun toString(): String = message ?: ""
 
     /** Attempting to associate an empty list of conditions to a rule. */
     public object EmptyRule : Error("The condition vector of a rule cannot be empty.")
 
     /** Filter exceeds the maximum number of instructions that a BPF program can have. */
-    public data class FilterTooLarge(val len: Int) : Error(
-        "The seccomp filter contains too many BPF instructions: $len. Max length is $BPF_MAX_LEN.",
-    ) {
+    public data class FilterTooLarge(
+        val len: Int,
+    ) : Error(
+            "The seccomp filter contains too many BPF instructions: $len. Max length is $BPF_MAX_LEN.",
+        ) {
         override fun toString(): String = message ?: ""
     }
 
@@ -44,7 +48,9 @@ public sealed class Error(message: String) : RuntimeException(message) {
     )
 
     /** Invalid [TargetArch]. */
-    public data class InvalidTargetArch(val arch: String) : Error("Invalid target arch: $arch.") {
+    public data class InvalidTargetArch(
+        val arch: String,
+    ) : Error("Invalid target arch: $arch.") {
         override fun toString(): String = message ?: ""
     }
 }
@@ -62,19 +68,21 @@ public enum class TargetArch {
     ;
 
     /** Get the arch audit value. Used for the runtime arch check embedded in the BPF filter. */
-    internal fun getAuditValue(): UInt = when (this) {
-        X86_64 -> AUDIT_ARCH_X86_64
-        AARCH64 -> AUDIT_ARCH_AARCH64
-        RISCV64 -> AUDIT_ARCH_RISCV64
-    }
+    internal fun getAuditValue(): UInt =
+        when (this) {
+            X86_64 -> AUDIT_ARCH_X86_64
+            AARCH64 -> AUDIT_ARCH_AARCH64
+            RISCV64 -> AUDIT_ARCH_RISCV64
+        }
 
     public companion object {
-        public fun tryFrom(input: String): Result<TargetArch> = when (input.lowercase()) {
-            "x86_64" -> Result.success(X86_64)
-            "aarch64" -> Result.success(AARCH64)
-            "riscv64" -> Result.success(RISCV64)
-            else -> Result.failure(Error.InvalidTargetArch(input))
-        }
+        public fun tryFrom(input: String): Result<TargetArch> =
+            when (input.lowercase()) {
+                "x86_64" -> Result.success(X86_64)
+                "aarch64" -> Result.success(AARCH64)
+                "riscv64" -> Result.success(RISCV64)
+                else -> Result.failure(Error.InvalidTargetArch(input))
+            }
     }
 }
 
@@ -96,7 +104,9 @@ public sealed class SeccompCmpOp {
     public object Lt : SeccompCmpOp()
 
     /** Masked bits of argument value are equal to masked bits of specified value. */
-    public data class MaskedEq(val mask: ULong) : SeccompCmpOp()
+    public data class MaskedEq(
+        val mask: ULong,
+    ) : SeccompCmpOp()
 
     /** Argument value is not equal to specified value. */
     public object Ne : SeccompCmpOp()
@@ -117,7 +127,9 @@ public sealed class SeccompAction {
     public object Allow : SeccompAction()
 
     /** Returns from syscall with specified error number. */
-    public data class Errno(val errno: UInt) : SeccompAction()
+    public data class Errno(
+        val errno: UInt,
+    ) : SeccompAction()
 
     /** Kills calling thread. */
     public object KillThread : SeccompAction()
@@ -129,7 +141,9 @@ public sealed class SeccompAction {
     public object Log : SeccompAction()
 
     /** Notifies tracing process of the caller with respective number. */
-    public data class Trace(val number: UInt) : SeccompAction()
+    public data class Trace(
+        val number: UInt,
+    ) : SeccompAction()
 
     /** Sends `SIGSYS` to the calling process. */
     public object Trap : SeccompAction()
@@ -139,13 +153,14 @@ public sealed class SeccompAction {
      *
      * @receiver the [SeccompAction] that the kernel will take.
      */
-    public fun toUInt(): UInt = when (this) {
-        is Allow -> SECCOMP_RET_ALLOW
-        is Errno -> SECCOMP_RET_ERRNO or (errno and SECCOMP_RET_DATA)
-        is KillThread -> SECCOMP_RET_KILL_THREAD
-        is KillProcess -> SECCOMP_RET_KILL_PROCESS
-        is Log -> SECCOMP_RET_LOG
-        is Trace -> SECCOMP_RET_TRACE or (number and SECCOMP_RET_DATA)
-        is Trap -> SECCOMP_RET_TRAP
-    }
+    public fun toUInt(): UInt =
+        when (this) {
+            is Allow -> SECCOMP_RET_ALLOW
+            is Errno -> SECCOMP_RET_ERRNO or (errno and SECCOMP_RET_DATA)
+            is KillThread -> SECCOMP_RET_KILL_THREAD
+            is KillProcess -> SECCOMP_RET_KILL_PROCESS
+            is Log -> SECCOMP_RET_LOG
+            is Trace -> SECCOMP_RET_TRACE or (number and SECCOMP_RET_DATA)
+            is Trap -> SECCOMP_RET_TRAP
+        }
 }
