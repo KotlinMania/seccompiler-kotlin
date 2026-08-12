@@ -16,15 +16,18 @@ internal class ConditionTest {
         )
         assertEquals(
             Error.InvalidArgumentNumber,
-            SeccompCondition.new(7u, SeccompCmpArgLen.DWORD, SeccompCmpOp.Eq, 60uL)
+            SeccompCondition
+                .new(7u, SeccompCmpArgLen.DWORD, SeccompCmpOp.Eq, 60uL)
                 .exceptionOrNull(),
         )
     }
 
     @Test
     fun testGetDataOffsets() {
-        val cond = SeccompCondition.new(1u, SeccompCmpArgLen.QWORD, SeccompCmpOp.Eq, 60uL)
-            .getOrThrow()
+        val cond =
+            SeccompCondition
+                .new(1u, SeccompCmpArgLen.QWORD, SeccompCmpOp.Eq, 60uL)
+                .getOrThrow()
         val (msbOffset, lsbOffset) = cond.getDataOffsets()
         assertEquals(
             Pair(
@@ -51,12 +54,14 @@ internal class ConditionTest {
 
     @Test
     fun testSplitValue() {
-        val cond = SeccompCondition.new(
-            1u,
-            SeccompCmpArgLen.QWORD,
-            SeccompCmpOp.Eq,
-            UInt.MAX_VALUE.toULong() + 1uL,
-        ).getOrThrow()
+        val cond =
+            SeccompCondition
+                .new(
+                    1u,
+                    SeccompCmpArgLen.QWORD,
+                    SeccompCmpOp.Eq,
+                    UInt.MAX_VALUE.toULong() + 1uL,
+                ).getOrThrow()
         assertEquals(Pair(1u, 0u), cond.splitValue())
     }
 
