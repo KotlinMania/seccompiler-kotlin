@@ -6,7 +6,7 @@
 package io.github.kotlinmania.seccompiler.backend
 
 /** Program made up of a sequence of BPF instructions. */
-public typealias BpfProgram = MutableList<SockFilter>
+public typealias BpfProgram = List<SockFilter>
 
 /** Reference to program made up of a sequence of BPF instructions. */
 public typealias BpfProgramRef = List<SockFilter>
@@ -53,9 +53,9 @@ internal fun bpfStmt(code: UInt, k: UInt): SockFilter =
     SockFilter(code = code, jt = 0u, jf = 0u, k = k)
 
 // Builds a sequence of BPF instructions that validate the underlying architecture.
-internal fun buildArchValidationSequence(targetArch: TargetArch): MutableList<SockFilter> {
+internal fun buildArchValidationSequence(targetArch: TargetArch): List<SockFilter> {
     val auditArchValue = targetArch.getAuditValue()
-    return mutableListOf(
+    return listOf(
         bpfStmt(BPF_LD or BPF_W or BPF_ABS, SECCOMP_DATA_ARCH_OFFSET),
         bpfJump(BPF_JMP or BPF_JEQ or BPF_K, auditArchValue, 1u, 0u),
         bpfStmt(BPF_RET or BPF_K, SECCOMP_RET_KILL_PROCESS),

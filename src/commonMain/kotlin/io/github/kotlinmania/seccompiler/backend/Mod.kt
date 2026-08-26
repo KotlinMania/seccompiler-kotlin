@@ -128,7 +128,7 @@ public sealed class SeccompAction {
 
     /** Returns from syscall with specified error number. */
     public data class Errno(
-        val errno: UInt,
+        val errorNumber: UInt,
     ) : SeccompAction()
 
     /** Kills calling thread. */
@@ -156,7 +156,7 @@ public sealed class SeccompAction {
     public fun toUInt(): UInt =
         when (this) {
             is Allow -> SECCOMP_RET_ALLOW
-            is Errno -> SECCOMP_RET_ERRNO or (errno and SECCOMP_RET_DATA)
+            is Errno -> SECCOMP_RET_ERRNO or (errorNumber and SECCOMP_RET_DATA)
             is KillThread -> SECCOMP_RET_KILL_THREAD
             is KillProcess -> SECCOMP_RET_KILL_PROCESS
             is Log -> SECCOMP_RET_LOG
