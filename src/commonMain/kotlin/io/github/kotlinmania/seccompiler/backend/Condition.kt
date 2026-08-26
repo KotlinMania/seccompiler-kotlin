@@ -303,7 +303,7 @@ public data class SeccompCondition internal constructor(
      * The most significant and least significant halves of the argument value are compared
      * separately since the BPF operand and accumulator are 4 bytes whereas an argument value is 8.
      */
-    internal fun intoBpf(offset: UInt): MutableList<SockFilter> {
+    internal fun intoBpf(offset: UInt): List<SockFilter> {
         val result =
             when (val op = operator) {
                 is SeccompCmpOp.Eq -> intoEqBpf(offset)
