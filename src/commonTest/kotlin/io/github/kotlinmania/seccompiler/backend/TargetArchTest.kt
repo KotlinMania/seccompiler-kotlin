@@ -1,4 +1,3 @@
-// port-lint: source backend/mod.rs
 // Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0 OR BSD-3-Clause
 
@@ -8,7 +7,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-internal class ModTest {
+internal class TargetArchTest {
     @Test
     fun errorDisplay() {
         assertEquals("The condition vector of a rule cannot be empty.", Error.EmptyRule.toString())

@@ -4,14 +4,16 @@ Based on AST analysis, here are the concrete next steps.
 
 ## Summary
 
-- **Files Present:** 4/12 (33.3%)
-- **Function parity:** 21/59 matched (target 28) — 35.6%
-- **Class/type parity:** 10/23 matched (target 32) — 43.5%
-- **Combined symbol parity:** 31/82 matched (target 60) — 37.8%
-- **Average inline-code cosine:** 0.79 (function body across 2 matched files)
-- **Average documentation cosine:** 0.84 (doc text across 2 matched files)
-- **Cheat-zeroed Files:** 2
-- **Critical Issues:** 2 files with <0.60 function similarity
+- **Files Present:** 8/12 (66.7%)
+- **Function parity:** 40/54 matched (target 63) — 74.1%
+- **Class/type parity:** 12/17 matched (target 24) — 70.6%
+- **Combined symbol parity:** 52/71 matched (target 87) — 73.2%
+- **Average inline-code cosine:** 0.25 (function body across 8 matched files)
+- **Average documentation cosine:** 0.48 (doc text across 8 matched files)
+- **Cheat-zeroed Files:** 0
+- **Critical Issues:** 8 files with <0.60 function similarity
+- **Needs Review:** 0 files with 0.60-0.84 function similarity
+- **Excellent:** 0 files with >=0.85 function similarity
 
 ## Priority 1: Fix Incomplete High-Dependency Files
 
@@ -27,55 +29,98 @@ No missing high-value files detected.
 
 Every matched file is listed below with function and type symbol parity.
 
-### 1. backend.mod
+### 1. frontend.json
 
-- **Target:** `backend.Mod [STUB]`
-- **Similarity:** 0.00
+- **Target:** `frontend.Json`
+- **Similarity:** 0.03
 - **Dependents:** 0
-- **Priority Score:** 31110.0
-- **Functions:** 2/5 matched (target 6)
-- **Missing functions:** `fmt`, `from`, `test_target_arch`
-- **Types:** 6/6 matched (target 25)
-- **Missing types:** _none_
-- **Tests:** 0/1 matched
+- **Priority Score:** 152509.7
+- **Functions:** 4/15 matched (target 23)
+- **Missing functions:** `source`, `fmt`, `deserialize`, `expecting`, `visit_map`, `deserialize`, `try_from`, `new`, `new`, `new`, `new`
+- **Types:** 6/10 matched (target 11)
+- **Missing types:** `JsonFilterMap`, `JsonFilterMapVisitor`, `Value`, `JsonComment`
+- **Tests:** 2/5 matched
 
-### 2. backend.condition
+### 2. backend.filter
+
+- **Target:** `backend.Filter`
+- **Similarity:** 0.25
+- **Dependents:** 0
+- **Priority Score:** 31207.5
+- **Functions:** 8/10 matched
+- **Missing functions:** `try_from`, `create_test_bpf_filter`
+- **Types:** 1/2 matched
+- **Missing types:** `Error`
+- **Tests:** 5/6 matched
+
+### 3. backend.rule
+
+- **Target:** `backend.Rule`
+- **Similarity:** 0.17
+- **Dependents:** 0
+- **Priority Score:** 10808.3
+- **Functions:** 6/7 matched
+- **Missing functions:** `from`
+- **Types:** 1/1 matched (target 2)
+- **Missing types:** _none_
+- **Tests:** 3/3 matched
+
+### 4. backend.condition
 
 - **Target:** `backend.Condition`
-- **Similarity:** 0.76
+- **Similarity:** 0.32
 - **Dependents:** 0
-- **Priority Score:** 1602.4
+- **Priority Score:** 1606.8
 - **Functions:** 15/15 matched (target 16)
 - **Missing functions:** _none_
 - **Types:** 1/1 matched (target 2)
 - **Missing types:** _none_
 - **Tests:** 3/3 matched
 
-### 3. backend.bpf
+### 5. backend.bpf
 
 - **Target:** `backend.Bpf`
-- **Similarity:** 0.81
+- **Similarity:** 0.36
 - **Dependents:** 0
-- **Priority Score:** 701.9
+- **Priority Score:** 706.4
 - **Functions:** 4/4 matched
 - **Missing functions:** _none_
 - **Types:** 3/3 matched (target 4)
 - **Missing types:** _none_
 - **Tests:** 1/1 matched
 
-### 4. frontend.mod
+### 6. syscall_table.aarch64
 
-- **Target:** `backend.ModTest [STUB] [PROVENANCE-FALLBACK]`
-- **Similarity:** 0.00
+- **Target:** `syscalltable.Aarch64`
+- **Similarity:** 0.30
 - **Dependents:** 0
-- **Priority Score:** 10.0
-- **Functions:** 0/0 matched (target 2)
+- **Priority Score:** 107.0
+- **Functions:** 1/1 matched
 - **Missing functions:** _none_
 - **Types:** 0/0 matched (target 1)
 - **Missing types:** _none_
-- **Provenance warning:** port-lint provenance header matched only by basename: `backend/mod.rs` vs expected `frontend/mod.rs`
-- **Proposed provenance header:** `// port-lint: source frontend/mod.rs` (current: `// port-lint: source backend/mod.rs`)
-- **Lint issues:** 1
+
+### 7. syscall_table.riscv64
+
+- **Target:** `syscalltable.Riscv64`
+- **Similarity:** 0.30
+- **Dependents:** 0
+- **Priority Score:** 107.0
+- **Functions:** 1/1 matched
+- **Missing functions:** _none_
+- **Types:** 0/0 matched (target 1)
+- **Missing types:** _none_
+
+### 8. syscall_table.x86_64
+
+- **Target:** `syscalltable.X86_64`
+- **Similarity:** 0.30
+- **Dependents:** 0
+- **Priority Score:** 107.0
+- **Functions:** 1/1 matched
+- **Missing functions:** _none_
+- **Types:** 0/0 matched (target 1)
+- **Missing types:** _none_
 
 ## Success Criteria
 
@@ -97,6 +142,8 @@ do not treat them as the next implementation target by default.
 
 | Source | Expected target | Deps | Source path | Expected path |
 |--------|-----------------|------|-------------|---------------|
+| `backend.mod` | `backend.Mod` | 0 | `backend/mod.rs` | `backend/Mod.kt` |
+| `frontend.mod` | `frontend.Mod` | 0 | `frontend/mod.rs` | `frontend/Mod.kt` |
 | `lib` | `Lib` | 0 | `lib.rs` | `Lib.kt` |
 | `syscall_table.mod` | `syscalltable.Mod` | 0 | `syscall_table/mod.rs` | `syscalltable/Mod.kt` |
 
