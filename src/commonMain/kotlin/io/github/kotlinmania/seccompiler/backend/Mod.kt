@@ -25,7 +25,7 @@ public typealias Result<T> = kotlin.Result<T>
 public sealed class Error(
     message: String,
 ) : RuntimeException(message) {
-    override fun toString(): String = message ?: ""
+    override fun toString(): String = message.orEmpty()
 
     /** Attempting to associate an empty list of conditions to a rule. */
     public object EmptyRule : Error("The condition vector of a rule cannot be empty.")
@@ -36,7 +36,7 @@ public sealed class Error(
     ) : Error(
             "The seccomp filter contains too many BPF instructions: $len. Max length is $BPF_MAX_LEN.",
         ) {
-        override fun toString(): String = message ?: ""
+        override fun toString(): String = message.orEmpty()
     }
 
     /** Filter and default actions are equal. */
@@ -51,7 +51,7 @@ public sealed class Error(
     public data class InvalidTargetArch(
         val arch: String,
     ) : Error("Invalid target arch: $arch.") {
-        override fun toString(): String = message ?: ""
+        override fun toString(): String = message.orEmpty()
     }
 }
 

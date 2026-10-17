@@ -89,12 +89,16 @@ public data class SeccompCondition internal constructor(
 
         val bpf: MutableList<SockFilter> =
             when (argLen) {
-                SeccompCmpArgLen.DWORD -> mutableListOf()
-                SeccompCmpArgLen.QWORD ->
+                SeccompCmpArgLen.DWORD -> {
+                    mutableListOf()
+                }
+
+                SeccompCmpArgLen.QWORD -> {
                     mutableListOf(
                         bpfStmt(BPF_LD or BPF_W or BPF_ABS, msbOffset),
                         bpfJump(BPF_JMP or BPF_JEQ or BPF_K, msb, 0u, offset + 2u),
                     )
+                }
             }
 
         bpf.addAll(
@@ -117,12 +121,16 @@ public data class SeccompCondition internal constructor(
 
         val bpf: MutableList<SockFilter> =
             when (argLen) {
-                SeccompCmpArgLen.DWORD -> mutableListOf()
-                SeccompCmpArgLen.QWORD ->
+                SeccompCmpArgLen.DWORD -> {
+                    mutableListOf()
+                }
+
+                SeccompCmpArgLen.QWORD -> {
                     mutableListOf(
                         bpfStmt(BPF_LD or BPF_W or BPF_ABS, msbOffset),
                         bpfJump(BPF_JMP or BPF_JEQ or BPF_K, msb, 0u, 2u),
                     )
+                }
             }
 
         bpf.addAll(
@@ -145,13 +153,17 @@ public data class SeccompCondition internal constructor(
 
         val bpf: MutableList<SockFilter> =
             when (argLen) {
-                SeccompCmpArgLen.DWORD -> mutableListOf()
-                SeccompCmpArgLen.QWORD ->
+                SeccompCmpArgLen.DWORD -> {
+                    mutableListOf()
+                }
+
+                SeccompCmpArgLen.QWORD -> {
                     mutableListOf(
                         bpfStmt(BPF_LD or BPF_W or BPF_ABS, msbOffset),
                         bpfJump(BPF_JMP or BPF_JGT or BPF_K, msb, 3u, 0u),
                         bpfJump(BPF_JMP or BPF_JEQ or BPF_K, msb, 0u, offset + 2u),
                     )
+                }
             }
 
         bpf.addAll(
@@ -174,13 +186,17 @@ public data class SeccompCondition internal constructor(
 
         val bpf: MutableList<SockFilter> =
             when (argLen) {
-                SeccompCmpArgLen.DWORD -> mutableListOf()
-                SeccompCmpArgLen.QWORD ->
+                SeccompCmpArgLen.DWORD -> {
+                    mutableListOf()
+                }
+
+                SeccompCmpArgLen.QWORD -> {
                     mutableListOf(
                         bpfStmt(BPF_LD or BPF_W or BPF_ABS, msbOffset),
                         bpfJump(BPF_JMP or BPF_JGT or BPF_K, msb, 3u, 0u),
                         bpfJump(BPF_JMP or BPF_JEQ or BPF_K, msb, 0u, offset + 2u),
                     )
+                }
             }
 
         bpf.addAll(
@@ -203,13 +219,17 @@ public data class SeccompCondition internal constructor(
 
         val bpf: MutableList<SockFilter> =
             when (argLen) {
-                SeccompCmpArgLen.DWORD -> mutableListOf()
-                SeccompCmpArgLen.QWORD ->
+                SeccompCmpArgLen.DWORD -> {
+                    mutableListOf()
+                }
+
+                SeccompCmpArgLen.QWORD -> {
                     mutableListOf(
                         bpfStmt(BPF_LD or BPF_W or BPF_ABS, msbOffset),
                         bpfJump(BPF_JMP or BPF_JGT or BPF_K, msb, offset + 3u, 0u),
                         bpfJump(BPF_JMP or BPF_JEQ or BPF_K, msb, 0u, 2u),
                     )
+                }
             }
 
         bpf.addAll(
@@ -232,13 +252,17 @@ public data class SeccompCondition internal constructor(
 
         val bpf: MutableList<SockFilter> =
             when (argLen) {
-                SeccompCmpArgLen.DWORD -> mutableListOf()
-                SeccompCmpArgLen.QWORD ->
+                SeccompCmpArgLen.DWORD -> {
+                    mutableListOf()
+                }
+
+                SeccompCmpArgLen.QWORD -> {
                     mutableListOf(
                         bpfStmt(BPF_LD or BPF_W or BPF_ABS, msbOffset),
                         bpfJump(BPF_JMP or BPF_JGT or BPF_K, msb, offset + 3u, 0u),
                         bpfJump(BPF_JMP or BPF_JEQ or BPF_K, msb, 0u, 2u),
                     )
+                }
             }
 
         bpf.addAll(
@@ -270,13 +294,17 @@ public data class SeccompCondition internal constructor(
 
         val bpf: MutableList<SockFilter> =
             when (argLen) {
-                SeccompCmpArgLen.DWORD -> mutableListOf()
-                SeccompCmpArgLen.QWORD ->
+                SeccompCmpArgLen.DWORD -> {
+                    mutableListOf()
+                }
+
+                SeccompCmpArgLen.QWORD -> {
                     mutableListOf(
                         bpfStmt(BPF_LD or BPF_W or BPF_ABS, msbOffset),
                         bpfStmt(BPF_ALU or BPF_AND or BPF_K, maskMsb),
                         bpfJump(BPF_JMP or BPF_JEQ or BPF_K, msb, 0u, offset + 3u),
                     )
+                }
             }
 
         bpf.addAll(
