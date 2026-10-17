@@ -9,6 +9,9 @@ detekt = "2.0.0-alpha.6"
 ktlint = "14.2.0"
 kotlinxBenchmark = "0.5.0"
 ktlintEngine = "1.8.0"
+libc = "0.1.9"
+serde = "0.1.11"
+serde-json = "0.1.1"
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
@@ -26,6 +29,9 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
 collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "collectionsImmutable" }
 kotlinx-benchmark-runtime = { module = "org.jetbrains.kotlinx:kotlinx-benchmark-runtime", version.ref = "kotlinxBenchmark" }
+kotlinmania-libc = { module = "io.github.kotlinmania:libc-kotlin", version.ref = "libc" }
+kotlinmania-serde = { module = "io.github.kotlinmania:serde-kotlin", version.ref = "serde" }
+kotlinmania-serde-json = { module = "io.github.kotlinmania:serde-json-kotlin", version.ref = "serde-json" }
 
 [bundles]
 seccompiler-commonMain = [
@@ -34,4 +40,7 @@ seccompiler-commonMain = [
   "kotlinx-serialization-json",
   "kotlinx-datetime",
   "collections-immutable",
+  "kotlinmania-libc",
+  "kotlinmania-serde",
+  "kotlinmania-serde-json",
 ]

@@ -5,6 +5,8 @@
 /** Define constants, helpers and types used for BPF codegen. */
 package io.github.kotlinmania.seccompiler.backend
 
+import io.github.kotlinmania.libc.unix.linuxlike.linux.SECCOMP_RET_KILL_PROCESS
+
 /** Program made up of a sequence of BPF instructions. */
 public typealias BpfProgram = List<SockFilter>
 
@@ -119,9 +121,6 @@ public const val AUDIT_ARCH_AARCH64: UInt = 0xC00000B7u
 // `#define AUDIT_ARCH_RISCV64  (EM_RISCV|__AUDIT_ARCH_64BIT|__AUDIT_ARCH_LE)`
 // 243 | 0x80000000 | 0x40000000
 public const val AUDIT_ARCH_RISCV64: UInt = 0xC00000F3u
-
-// See /usr/include/linux/seccomp.h .
-private const val SECCOMP_RET_KILL_PROCESS: UInt = 0x80000000u
 
 /**
  * BPF instruction structure definition.
